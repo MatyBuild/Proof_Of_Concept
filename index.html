@@ -503,13 +503,22 @@
                     milestoneInfo.textContent = milestones[currentMilestone].label;
                 } else {
                     milestoneInfo.textContent = '✓ Všechny milníky dokončeny!';
+                    // Lock slider at center
+                    positionSlider.disabled = true;
+                    positionSlider.style.opacity = '0.5';
                 }
             }
         }
 
         // Slider input
         positionSlider.addEventListener('input', (e) => {
-            position = parseInt(e.target.value);
+            // Lock slider at center if all milestones are completed
+            if (completedMilestones.left && completedMilestones.right && completedMilestones.center) {
+                position = 0;
+                positionSlider.value = 0;
+            } else {
+                position = parseInt(e.target.value);
+            }
             updateVisual();
         });
 
@@ -524,6 +533,9 @@
                 center: false
             };
             milestoneInfo.textContent = milestones[0].label;
+            // Unlock slider
+            positionSlider.disabled = false;
+            positionSlider.style.opacity = '1';
             updateVisual();
         });
 
