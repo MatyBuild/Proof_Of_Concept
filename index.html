@@ -539,9 +539,9 @@
             } else {
                 position = parseInt(e.target.value);
                 
-                // Auto-snap to target if within 5% (5 units)
+                // Auto-snap to center only (milestone 2) if within 5% (5 units)
                 const milestone = milestones[currentMilestone];
-                if (Math.abs(position - milestone.target) <= 5) {
+                if (milestone.name === 'center' && Math.abs(position - milestone.target) <= 5) {
                     position = milestone.target;
                     positionSlider.value = milestone.target;
                 }
