@@ -383,51 +383,71 @@
             const linePos = 50 + (position / 2);
             line.style.left = `${linePos}%`;
 
-            // Update left track (from center to line position)
-            if (position < 0) {
-                // Moving left - track goes from center to current line position
-                const trackWidth = Math.abs(position / 2);
-                trackLeft.style.right = '50%';
-                trackLeft.style.width = `${trackWidth}%`;
-                
-                if (completedMilestones.left) {
-                    trackLeft.style.background = '#8fce00';
-                } else {
+            // Reset tracks
+            trackLeft.style.left = 'auto';
+            trackLeft.style.right = 'auto';
+            trackRight.style.left = 'auto';
+            trackRight.style.right = 'auto';
+
+            // Milestone 0: Going left (center to left)
+            if (currentMilestone === 0) {
+                if (position < 0) {
+                    const trackWidth = Math.abs(position / 2);
+                    trackLeft.style.right = '50%';
+                    trackLeft.style.width = `${trackWidth}%`;
                     const progress = Math.abs(position) / 100;
                     trackLeft.style.background = getTrackColor(progress);
-                }
-            } else {
-                if (completedMilestones.left) {
-                    trackLeft.style.left = '0%';
-                    trackLeft.style.right = 'auto';
-                    trackLeft.style.width = '50%';
-                    trackLeft.style.background = '#8fce00';
                 } else {
                     trackLeft.style.width = '0%';
                 }
+                trackRight.style.width = '0%';
             }
-
-            // Update right track (from center to line position)
-            if (position > 0) {
-                // Moving right - track goes from center to current line position
-                const trackWidth = position / 2;
-                trackRight.style.left = '50%';
-                trackRight.style.width = `${trackWidth}%`;
+            // Milestone 1: Going right (left to right)
+            else if (currentMilestone === 1) {
+                // Left side is complete (green)
+                trackLeft.style.left = '0%';
+                trackLeft.style.width = '50%';
+                trackLeft.style.background = '#8fce00';
                 
-                if (completedMilestones.right) {
-                    trackRight.style.background = '#8fce00';
-                } else {
-                    const progress = position / 100;
+                // Current progress from left
+                if (position >= -100) {
+                    const totalDistance = 200; // from -100 to 100
+                    const currentDistance = position + 100; // 0 to 200
+                    const rightTrackWidth = (currentDistance / totalDistance) * 50;
+                    trackRight.style.left = '50%';
+                    trackRight.style.width = `${rightTrackWidth}%`;
+                    const progress = currentDistance / totalDistance;
                     trackRight.style.background = getTrackColor(progress);
                 }
-            } else {
-                if (completedMilestones.right) {
-                    trackRight.style.right = '0%';
-                    trackRight.style.left = 'auto';
-                    trackRight.style.width = '50%';
-                    trackRight.style.background = '#8fce00';
-                } else {
+            }
+            // Milestone 2: Going to center (right to center)
+            else if (currentMilestone === 2) {
+                // Left side is complete (green)
+                trackLeft.style.left = '0%';
+                trackLeft.style.width = '50%';
+                trackLeft.style.background = '#8fce00';
+                
+                // Right side is complete (green)
+                trackRight.style.right = '0%';
+                trackRight.style.width = '50%';
+                trackRight.style.background = '#8fce00';
+                
+                // If moving back to center, show progress
+                if (position < 100 && position > 0) {
+                    const progress = (100 - position) / 100;
+                    const adjustedColor = getTrackColor(1 - progress);
+                    trackRight.style.background = adjustedColor;
+                } else if (position <= 0 && position > -100) {
+                    // Coming from right through center to left side
                     trackRight.style.width = '0%';
+                    const leftProgress = Math.abs(position) / 100;
+                    trackLeft.style.right = '50%';
+                    trackLeft.style.width = `${leftProgress * 50}%`;
+                    trackLeft.style.background = getTrackColor(1);
+                } else if (position === 0) {
+                    // At center - both sides green
+                    trackLeft.style.background = '#8fce00';
+                    trackRight.style.background = '#8fce00';
                 }
             }
 
