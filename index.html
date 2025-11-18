@@ -447,40 +447,56 @@
             }
             // Milestone 2: Going to center (curtain effect)
             else if (currentMilestone === 2) {
-                // Left side is complete (green)
-                trackLeft.style.left = '0%';
-                trackLeft.style.width = '50%';
-                trackLeft.style.background = '#8fce00';
-                
-                // Right side is complete (green)
-                trackRight.style.right = '0%';
-                trackRight.style.width = '50%';
-                trackRight.style.background = '#8fce00';
-                
-                // Curtain effect - tracks closing from both sides
-                if (position <= 100 && position >= 0) {
-                    const progress = (100 - position) / 100; // 0 at right, 1 at center
-                    const curtainWidth = progress * 50; // Each curtain goes up to 50%
+                // Check if center milestone is completed
+                if (completedMilestones.center) {
+                    // Open curtains - show green underneath
+                    trackCurtainLeft.style.width = '0%';
+                    trackCurtainRight.style.width = '0%';
                     
-                    // Yellow to orange gradient
-                    const r = 249; // Yellow starts at 249
-                    const g = Math.round(215 - (215 - 165) * progress); // 215 -> 165
-                    const b = Math.round(28 - 28 * progress); // 28 -> 0
-                    const color = `rgb(${r}, ${g}, ${b})`;
+                    // Show full green on both sides
+                    trackLeft.style.left = '0%';
+                    trackLeft.style.width = '50%';
+                    trackLeft.style.background = '#8fce00';
                     
-                    // Left curtain
-                    trackCurtainLeft.style.width = `${curtainWidth}%`;
-                    trackCurtainLeft.style.background = color;
+                    trackRight.style.right = '0%';
+                    trackRight.style.width = '50%';
+                    trackRight.style.background = '#8fce00';
+                } else {
+                    // Left side is complete (green)
+                    trackLeft.style.left = '0%';
+                    trackLeft.style.width = '50%';
+                    trackLeft.style.background = '#8fce00';
                     
-                    // Right curtain
-                    trackCurtainRight.style.width = `${curtainWidth}%`;
-                    trackCurtainRight.style.background = color;
-                } else if (position < 0) {
-                    // Past center - keep curtains closed at center
-                    trackCurtainLeft.style.width = '50%';
-                    trackCurtainLeft.style.background = 'rgb(249, 165, 0)';
-                    trackCurtainRight.style.width = '50%';
-                    trackCurtainRight.style.background = 'rgb(249, 165, 0)';
+                    // Right side is complete (green)
+                    trackRight.style.right = '0%';
+                    trackRight.style.width = '50%';
+                    trackRight.style.background = '#8fce00';
+                    
+                    // Curtain effect - tracks closing from both sides
+                    if (position <= 100 && position >= 0) {
+                        const progress = (100 - position) / 100; // 0 at right, 1 at center
+                        const curtainWidth = progress * 50; // Each curtain goes up to 50%
+                        
+                        // Yellow to orange gradient
+                        const r = 249; // Yellow starts at 249
+                        const g = Math.round(215 - (215 - 165) * progress); // 215 -> 165
+                        const b = Math.round(28 - 28 * progress); // 28 -> 0
+                        const color = `rgb(${r}, ${g}, ${b})`;
+                        
+                        // Left curtain
+                        trackCurtainLeft.style.width = `${curtainWidth}%`;
+                        trackCurtainLeft.style.background = color;
+                        
+                        // Right curtain
+                        trackCurtainRight.style.width = `${curtainWidth}%`;
+                        trackCurtainRight.style.background = color;
+                    } else if (position < 0) {
+                        // Past center - keep curtains closed at center
+                        trackCurtainLeft.style.width = '50%';
+                        trackCurtainLeft.style.background = 'rgb(249, 165, 0)';
+                        trackCurtainRight.style.width = '50%';
+                        trackCurtainRight.style.background = 'rgb(249, 165, 0)';
+                    }
                 }
             }
 
@@ -503,9 +519,13 @@
                     milestoneInfo.textContent = milestones[currentMilestone].label;
                 } else {
                     milestoneInfo.textContent = '✓ Všechny milníky dokončeny!';
-                    // Lock slider at center
-                    positionSlider.disabled = true;
-                    positionSlider.style.opacity = '0.5';
+                    // Animate curtains opening after a brief delay
+                    setTimeout(() => {
+                        updateVisual();
+                        // Lock slider at center after animation
+                        positionSlider.disabled = true;
+                        positionSlider.style.opacity = '0.5';
+                    }, 300);
                 }
             }
         }
