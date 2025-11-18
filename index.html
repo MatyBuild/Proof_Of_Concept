@@ -520,14 +520,14 @@
                     milestoneInfo.textContent = milestones[currentMilestone].label;
                 } else {
                     milestoneInfo.textContent = '✓ Všechny milníky dokončeny!';
-                    // Keep orange curtains for 2 seconds, then open them
+                    // Keep orange curtains for 0.5 seconds, then open them
                     setTimeout(() => {
                         completedMilestones.centerAnimationComplete = true;
                         updateVisual();
                         // Lock slider at center after animation
                         positionSlider.disabled = true;
                         positionSlider.style.opacity = '0.5';
-                    }, 2000);
+                    }, 500);
                 }
             }
         }
