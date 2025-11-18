@@ -175,6 +175,19 @@
             z-index: 10;
         }
 
+        .line-shadow {
+            position: absolute;
+            top: 0;
+            right: 50%;
+            width: 3px;
+            height: 100%;
+            background: orange;
+            transform: translateX(50%);
+            transition: right 0.1s;
+            z-index: 10;
+            opacity: 0;
+        }
+
         .arrow {
             position: absolute;
             top: 50%;
@@ -316,6 +329,7 @@
                     <div class="track-left" id="trackLeft"></div>
                     <div class="track-right" id="trackRight"></div>
                     <div class="line" id="line"></div>
+                    <div class="line-shadow" id="lineShadow"></div>
                     <div class="arrow arrow-left" id="arrowLeft">←</div>
                     <div class="arrow arrow-right" id="arrowRight">→</div>
                     <div class="arrow arrow-center" id="arrowCenter">⬤</div>
@@ -336,6 +350,7 @@
     <script>
         // Elements
         const line = document.getElementById('line');
+        const lineShadow = document.getElementById('lineShadow');
         const trackLeft = document.getElementById('trackLeft');
         const trackRight = document.getElementById('trackRight');
         const arrowLeft = document.getElementById('arrowLeft');
@@ -382,6 +397,9 @@
             // Update line position (50% center, 0% left, 100% right)
             const linePos = 50 + (position / 2);
             line.style.left = `${linePos}%`;
+            
+            // Hide shadow line by default
+            lineShadow.style.opacity = '0';
 
             // Reset tracks
             trackLeft.style.left = 'auto';
@@ -422,6 +440,11 @@
             }
             // Milestone 2: Going to center (right to center)
             else if (currentMilestone === 2) {
+                // Show shadow line (mirror from left)
+                lineShadow.style.opacity = '1';
+                const shadowLinePos = 50 - (position / 2);
+                lineShadow.style.right = `${shadowLinePos}%`;
+                
                 // Left side is complete (green)
                 trackLeft.style.left = '0%';
                 trackLeft.style.width = '50%';
