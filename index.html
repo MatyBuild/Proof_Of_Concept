@@ -175,17 +175,12 @@
             z-index: 10;
         }
 
-        .line-shadow {
+        .track-center {
             position: absolute;
             top: 0;
-            right: 50%;
-            width: 3px;
             height: 100%;
-            background: orange;
-            transform: translateX(50%);
-            transition: right 0.1s;
-            z-index: 10;
-            opacity: 0;
+            transition: width 0.1s;
+            z-index: 5;
         }
 
         .arrow {
@@ -328,8 +323,8 @@
                 <div class="touchbar">
                     <div class="track-left" id="trackLeft"></div>
                     <div class="track-right" id="trackRight"></div>
+                    <div class="track-center" id="trackCenter"></div>
                     <div class="line" id="line"></div>
-                    <div class="line-shadow" id="lineShadow"></div>
                     <div class="arrow arrow-left" id="arrowLeft">←</div>
                     <div class="arrow arrow-right" id="arrowRight">→</div>
                     <div class="arrow arrow-center" id="arrowCenter">⬤</div>
@@ -350,9 +345,9 @@
     <script>
         // Elements
         const line = document.getElementById('line');
-        const lineShadow = document.getElementById('lineShadow');
         const trackLeft = document.getElementById('trackLeft');
         const trackRight = document.getElementById('trackRight');
+        const trackCenter = document.getElementById('trackCenter');
         const arrowLeft = document.getElementById('arrowLeft');
         const arrowRight = document.getElementById('arrowRight');
         const arrowCenter = document.getElementById('arrowCenter');
@@ -398,8 +393,8 @@
             const linePos = 50 + (position / 2);
             line.style.left = `${linePos}%`;
             
-            // Hide shadow line by default
-            lineShadow.style.opacity = '0';
+            // Hide center track by default
+            trackCenter.style.width = '0%';
 
             // Reset tracks
             trackLeft.style.left = 'auto';
@@ -440,11 +435,6 @@
             }
             // Milestone 2: Going to center (right to center)
             else if (currentMilestone === 2) {
-                // Show shadow line (mirror from left)
-                lineShadow.style.opacity = '1';
-                const shadowLinePos = 50 - (position / 2);
-                lineShadow.style.right = `${shadowLinePos}%`;
-                
                 // Left side is complete (green)
                 trackLeft.style.left = '0%';
                 trackLeft.style.width = '50%';
@@ -455,22 +445,23 @@
                 trackRight.style.width = '50%';
                 trackRight.style.background = '#8fce00';
                 
-                // If moving back to center, show progress
-                if (position < 100 && position > 0) {
-                    const progress = (100 - position) / 100;
-                    const adjustedColor = getTrackColor(1 - progress);
-                    trackRight.style.background = adjustedColor;
-                } else if (position <= 0 && position > -100) {
-                    // Coming from right through center to left side
-                    trackRight.style.width = '0%';
-                    const leftProgress = Math.abs(position) / 100;
-                    trackLeft.style.right = '50%';
-                    trackLeft.style.width = `${leftProgress * 50}%`;
-                    trackLeft.style.background = getTrackColor(1);
+                // Orange track from right to current position (behind white line)
+                if (position < 100 && position >= 0) {
+                    const trackWidth = (100 - position) / 2; // Width from right edge to line
+                    trackCenter.style.right = '0%';
+                    trackCenter.style.width = `${trackWidth}%`;
+                    const progress = (100 - position) / 100; // Progress towards center
+                    trackCenter.style.background = `rgb(255, ${Math.round(165 - 165 * progress)}, 0)`; // Orange getting more intense
+                } else if (position < 0) {
+                    // Past center going left
+                    trackCenter.style.right = '50%';
+                    trackCenter.style.width = '50%';
+                    trackCenter.style.background = 'rgb(255, 0, 0)'; // Full orange/red
                 } else if (position === 0) {
-                    // At center - both sides green
-                    trackLeft.style.background = '#8fce00';
-                    trackRight.style.background = '#8fce00';
+                    // At center
+                    trackCenter.style.right = '0%';
+                    trackCenter.style.width = '50%';
+                    trackCenter.style.background = 'rgb(255, 100, 0)';
                 }
             }
 
