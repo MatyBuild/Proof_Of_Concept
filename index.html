@@ -375,7 +375,8 @@
         let completedMilestones = {
             left: false,
             right: false,
-            center: false
+            center: false,
+            centerAnimationComplete: false
         };
 
         // Milestones configuration
@@ -447,8 +448,8 @@
             }
             // Milestone 2: Going to center (curtain effect)
             else if (currentMilestone === 2) {
-                // Check if center milestone is completed
-                if (completedMilestones.center) {
+                // Check if center milestone is completed and curtains should open
+                if (completedMilestones.centerAnimationComplete) {
                     // Open curtains - show green underneath
                     trackCurtainLeft.style.width = '0%';
                     trackCurtainRight.style.width = '0%';
@@ -519,8 +520,9 @@
                     milestoneInfo.textContent = milestones[currentMilestone].label;
                 } else {
                     milestoneInfo.textContent = '✓ Všechny milníky dokončeny!';
-                    // Animate curtains opening after 2 second delay
+                    // Keep orange curtains for 2 seconds, then open them
                     setTimeout(() => {
+                        completedMilestones.centerAnimationComplete = true;
                         updateVisual();
                         // Lock slider at center after animation
                         positionSlider.disabled = true;
@@ -557,7 +559,8 @@
             completedMilestones = {
                 left: false,
                 right: false,
-                center: false
+                center: false,
+                centerAnimationComplete: false
             };
             milestoneInfo.textContent = milestones[0].label;
             // Unlock slider
