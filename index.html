@@ -175,12 +175,21 @@
             z-index: 10;
         }
 
-        .track-center {
+        .track-curtain-left,
+        .track-curtain-right {
             position: absolute;
             top: 0;
             height: 100%;
-            transition: width 0.1s;
+            transition: width 0.3s;
             z-index: 5;
+        }
+
+        .track-curtain-left {
+            left: 0;
+        }
+
+        .track-curtain-right {
+            right: 0;
         }
 
         .arrow {
@@ -323,7 +332,8 @@
                 <div class="touchbar">
                     <div class="track-left" id="trackLeft"></div>
                     <div class="track-right" id="trackRight"></div>
-                    <div class="track-center" id="trackCenter"></div>
+                    <div class="track-curtain-left" id="trackCurtainLeft"></div>
+                    <div class="track-curtain-right" id="trackCurtainRight"></div>
                     <div class="line" id="line"></div>
                     <div class="arrow arrow-left" id="arrowLeft">←</div>
                     <div class="arrow arrow-right" id="arrowRight">→</div>
@@ -347,7 +357,8 @@
         const line = document.getElementById('line');
         const trackLeft = document.getElementById('trackLeft');
         const trackRight = document.getElementById('trackRight');
-        const trackCenter = document.getElementById('trackCenter');
+        const trackCurtainLeft = document.getElementById('trackCurtainLeft');
+        const trackCurtainRight = document.getElementById('trackCurtainRight');
         const arrowLeft = document.getElementById('arrowLeft');
         const arrowRight = document.getElementById('arrowRight');
         const arrowCenter = document.getElementById('arrowCenter');
@@ -393,8 +404,9 @@
             const linePos = 50 + (position / 2);
             line.style.left = `${linePos}%`;
             
-            // Hide center track by default
-            trackCenter.style.width = '0%';
+            // Hide curtain tracks by default
+            trackCurtainLeft.style.width = '0%';
+            trackCurtainRight.style.width = '0%';
 
             // Reset tracks
             trackLeft.style.left = 'auto';
@@ -433,7 +445,7 @@
                     trackRight.style.background = getTrackColor(progress);
                 }
             }
-            // Milestone 2: Going to center (right to center)
+            // Milestone 2: Going to center (curtain effect)
             else if (currentMilestone === 2) {
                 // Left side is complete (green)
                 trackLeft.style.left = '0%';
@@ -445,23 +457,30 @@
                 trackRight.style.width = '50%';
                 trackRight.style.background = '#8fce00';
                 
-                // Orange track from right to current position (behind white line)
-                if (position < 100 && position >= 0) {
-                    const trackWidth = (100 - position) / 2; // Width from right edge to line
-                    trackCenter.style.right = '0%';
-                    trackCenter.style.width = `${trackWidth}%`;
-                    const progress = (100 - position) / 100; // Progress towards center
-                    trackCenter.style.background = `rgb(255, ${Math.round(165 - 165 * progress)}, 0)`; // Orange getting more intense
+                // Curtain effect - tracks closing from both sides
+                if (position <= 100 && position >= 0) {
+                    const progress = (100 - position) / 100; // 0 at right, 1 at center
+                    const curtainWidth = progress * 50; // Each curtain goes up to 50%
+                    
+                    // Yellow to orange gradient
+                    const r = 249; // Yellow starts at 249
+                    const g = Math.round(215 - (215 - 165) * progress); // 215 -> 165
+                    const b = Math.round(28 - 28 * progress); // 28 -> 0
+                    const color = `rgb(${r}, ${g}, ${b})`;
+                    
+                    // Left curtain
+                    trackCurtainLeft.style.width = `${curtainWidth}%`;
+                    trackCurtainLeft.style.background = color;
+                    
+                    // Right curtain
+                    trackCurtainRight.style.width = `${curtainWidth}%`;
+                    trackCurtainRight.style.background = color;
                 } else if (position < 0) {
-                    // Past center going left
-                    trackCenter.style.right = '50%';
-                    trackCenter.style.width = '50%';
-                    trackCenter.style.background = 'rgb(255, 0, 0)'; // Full orange/red
-                } else if (position === 0) {
-                    // At center
-                    trackCenter.style.right = '0%';
-                    trackCenter.style.width = '50%';
-                    trackCenter.style.background = 'rgb(255, 100, 0)';
+                    // Past center - keep curtains closed at center
+                    trackCurtainLeft.style.width = '50%';
+                    trackCurtainLeft.style.background = 'rgb(249, 165, 0)';
+                    trackCurtainRight.style.width = '50%';
+                    trackCurtainRight.style.background = 'rgb(249, 165, 0)';
                 }
             }
 
