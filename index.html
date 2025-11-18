@@ -383,9 +383,11 @@
             const linePos = 50 + (position / 2);
             line.style.left = `${linePos}%`;
 
-            // Update left track
+            // Update left track (from line position to center)
             if (position < 0) {
+                // Moving left - track goes from current position to center
                 const trackWidth = Math.abs(position / 2);
+                trackLeft.style.left = `${linePos}%`;
                 trackLeft.style.width = `${trackWidth}%`;
                 
                 if (completedMilestones.left) {
@@ -396,6 +398,7 @@
                 }
             } else {
                 if (completedMilestones.left) {
+                    trackLeft.style.left = '0%';
                     trackLeft.style.width = '50%';
                     trackLeft.style.background = '#8fce00';
                 } else {
@@ -403,9 +406,11 @@
                 }
             }
 
-            // Update right track
+            // Update right track (from center to line position)
             if (position > 0) {
+                // Moving right - track goes from center to current position
                 const trackWidth = position / 2;
+                trackRight.style.right = `${50 - linePos}%`;
                 trackRight.style.width = `${trackWidth}%`;
                 
                 if (completedMilestones.right) {
@@ -416,6 +421,7 @@
                 }
             } else {
                 if (completedMilestones.right) {
+                    trackRight.style.right = '0%';
                     trackRight.style.width = '50%';
                     trackRight.style.background = '#8fce00';
                 } else {
