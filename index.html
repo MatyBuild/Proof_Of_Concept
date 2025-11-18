@@ -519,13 +519,13 @@
                     milestoneInfo.textContent = milestones[currentMilestone].label;
                 } else {
                     milestoneInfo.textContent = '✓ Všechny milníky dokončeny!';
-                    // Animate curtains opening after 1 second delay
+                    // Animate curtains opening after 2 second delay
                     setTimeout(() => {
                         updateVisual();
                         // Lock slider at center after animation
                         positionSlider.disabled = true;
                         positionSlider.style.opacity = '0.5';
-                    }, 1000);
+                    }, 2000);
                 }
             }
         }
