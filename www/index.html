@@ -24,14 +24,17 @@
             background: #1d1d1f;
             color: #f5f5f7;
             padding: 20px;
-            transition: transform 0.3s ease, margin-left 0.3s ease;
+            transition: all 0.3s ease;
             position: relative;
             flex-shrink: 0;
         }
 
         .menu.hidden {
-            transform: translateX(-250px);
-            margin-left: -250px;
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+            margin-left: 0;
+            transform: translateX(0);
         }
 
         .menu h1 {
