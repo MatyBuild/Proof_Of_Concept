@@ -380,15 +380,25 @@
             // Milestone 0: Going left (center to left)
             if (currentMilestone === 0) {
                 if (position < 0) {
+                    // Going left - correct direction
                     const trackWidth = Math.abs(position / 2);
                     trackLeft.style.right = '50%';
                     trackLeft.style.width = `${trackWidth}%`;
                     const progress = Math.abs(position) / 100;
                     trackLeft.style.background = getTrackColor(progress);
-                } else {
+                    trackRight.style.width = '0%';
+                } else if (position > 0) {
+                    // Going right - wrong direction (red)
+                    const trackWidth = Math.abs(position / 2);
+                    trackRight.style.left = '50%';
+                    trackRight.style.width = `${trackWidth}%`;
+                    trackRight.style.background = '#ff3b30'; // Red
                     trackLeft.style.width = '0%';
+                } else {
+                    // At center
+                    trackLeft.style.width = '0%';
+                    trackRight.style.width = '0%';
                 }
-                trackRight.style.width = '0%';
             }
             // Milestone 1: Going right (left to right)
             else if (currentMilestone === 1) {
