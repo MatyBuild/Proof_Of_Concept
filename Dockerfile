@@ -1,10 +1,7 @@
-FROM nginx:alpine
+FROM httpd:2.4-alpine
 
-# Zkopíruj HTML soubor do adresáře Nginx
-COPY index.html /usr/share/nginx/html/
+# Zkopíruj HTML soubor do adresáře Apache
+COPY index.html /usr/local/apache2/htdocs/
 
 # Exponuj port 80
 EXPOSE 80
-
-# Nginx se spustí automaticky
-CMD ["nginx", "-g", "daemon off;"]

@@ -80,4 +80,7 @@ ports:
 ```
 
 ### HTTPS s Let's Encrypt (volitelné)
-Pro production s HTTPS můžete přidat Nginx reverse proxy s Certbot, nebo použít Traefik.
+Pro production s HTTPS můžete přidat reverse proxy s Certbot, nebo použít Traefik.
+
+### Technologie
+Aplikace běží na Apache HTTP Server 2.4 v Docker kontejneru.
