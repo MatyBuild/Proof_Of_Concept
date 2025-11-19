@@ -385,11 +385,6 @@
             { target: 0, name: 'center', label: 'Cíl: Dojeďte do středu' }
         ];
 
-        // Header toggle
-        headerToggle.addEventListener('click', () => {
-            header.classList.toggle('hidden');
-        });
-
         // Color interpolation
         function getTrackColor(progress) {
             const r = Math.round(249 - (249 - 143) * progress);
