@@ -44,11 +44,16 @@ Aplikace bude dostupná na `http://IP_SERVERU:9011`
 Když uděláte změny v gitu:
 ```bash
 cd /opt/proof-of-concept
-sudo git pull
-sudo docker-compose down
-sudo docker-compose build
-sudo docker-compose up -d
+./update.sh
 ```
+
+Nebo manuálně:
+```bash
+cd /opt/proof-of-concept
+sudo git pull
+```
+
+Díky volumes se změny ve složce `www/` projeví okamžitě bez restartu kontejneru.
 
 ### Užitečné příkazy
 
