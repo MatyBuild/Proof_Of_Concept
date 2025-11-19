@@ -31,11 +31,6 @@
             overflow: hidden;
         }
 
-        .header.hidden {
-            height: 0;
-            padding: 0;
-        }
-
         .header h1 {
             font-size: 24px;
             margin: 0;
@@ -65,30 +60,6 @@
         .header a.active {
             background: #2d2d2f;
             color: #f5f5f7;
-        }
-
-        /* Header toggle button */
-        .header-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: #1d1d1f;
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .header-toggle:hover {
-            background: #2d2d2f;
         }
 
         /* Content */
@@ -319,7 +290,6 @@
 
     <!-- Content -->
     <div class="content">
-        <button class="header-toggle" id="headerToggle">☰</button>
         <!-- Slider Project -->
         <div id="slider" class="project active">
             <h2>Slider</h2>
@@ -365,8 +335,6 @@
         const positionValue = document.getElementById('positionValue');
         const milestoneInfo = document.getElementById('milestoneInfo');
         const resetBtn = document.getElementById('resetBtn');
-        const header = document.getElementById('header');
-        const headerToggle = document.getElementById('headerToggle');
 
         // State
         let position = 0; // -100 to 100
