@@ -4,6 +4,6 @@ services:
   web:
     build: .
     ports:
-      - "80:80"
+      - "9011:80"
     restart: always
     container_name: proof-of-concept

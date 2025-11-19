@@ -37,7 +37,7 @@ cd proof-of-concept
 sudo docker-compose up -d
 ```
 
-Aplikace bude dostupná na `http://IP_SERVERU` (port 80)
+Aplikace bude dostupná na `http://IP_SERVERU:9011`
 
 ### Aktualizace aplikace
 
@@ -73,10 +73,10 @@ sudo docker-compose up -d --build
 Docker Compose s `restart: always` zajistí, že se kontejner automaticky spustí po restartu serveru.
 
 ### Změna portu
-Pokud chcete použít jiný port než 80, změňte v `docker-compose.yml`:
+Aplikace běží na portu **9011**. Pro změnu upravte v `docker-compose.yml`:
 ```yaml
 ports:
-  - "8080:80"  # aplikace bude na portu 8080
+  - "9011:80"  # aplikace bude na portu 9011
 ```
 
 ### HTTPS s Let's Encrypt (volitelné)
