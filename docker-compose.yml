@@ -5,5 +5,7 @@ services:
     build: .
     ports:
       - "9011:80"
+    volumes:
+      - ./www:/usr/local/apache2/htdocs
     restart: always
     container_name: proof-of-concept

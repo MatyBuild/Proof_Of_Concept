@@ -84,3 +84,10 @@ Pro production s HTTPS můžete přidat reverse proxy s Certbot, nebo použít T
 
 ### Technologie
 Aplikace běží na Apache HTTP Server 2.4 v Docker kontejneru.
+
+### Struktura projektů
+- `www/` - webové soubory (HTML, CSS, JS)
+- `Dockerfile` - definice Docker image
+- `docker-compose.yml` - konfigurace služeb
+
+Všechny soubory ve složce `www/` jsou automaticky namápovány do kontejneru, takže změny se projeví okamžitě bez rebuild.
